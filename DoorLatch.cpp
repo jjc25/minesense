@@ -41,28 +41,42 @@ public:
 
 class DoorLatch
 {
-	int position;//0 when closed and 300 when open
+	bool isOpen;
+	CMotor* motor;
 public:
-	DoorLatch();
-	void setPosition(int position);
-	int getPosition();
+	DoorLatch(bool status=false, CMotor* motor=NULL);
+	void setStatus(bool status);
+	void setMotor(CMotor* motor);
+	bool getStatus();
+	CMotor* getMotor();
+	
 };
 
-DoorLatch::DoorLatch()
+DoorLatch::DoorLatch(bool status, CMotor* motor)
 {
-	position=0;
+	isOpen=status;
+	this.motor=motor;
 }
 
-void DoorLatch::setPosition(int position)
+void DoorLatch::setStatus(bool status)
 {
-	this.position=position;
+	isOpen=status;	
 }
 
-int DoorLatch::getPosition()
+void DoorLatch::setMotor(CMotor* motor)
 {
-	return position;	
+	this.motor=motor;
 }
 
+bool DoorLatch::getStatus()
+{
+	return isOpen;
+}
+
+CMotor* getMotor()
+{
+	return motor;
+}
 
 
 //sample main function
@@ -70,7 +84,7 @@ int main(int argc, char const *argv[])
 {
 	CSensor sensor;
 	CMotor motor;
-	DoorLatch latch;
+	DoorLatch latch(&motor);
 
 	int avg;
 	if(sensor.Calibrate())
@@ -78,12 +92,10 @@ int main(int argc, char const *argv[])
 		avg=sendor.ReadData(data);//note that I modified the method in its declaration to return the average value of the data received
 	}
 
-	if(latch.getPosition()!=300)
+	if(!latch.getStatus())
 	{
-		motor.MoveMotor(avg);
-		latch.setPosition(avg);
+		latch.getMotor->MoveMotor(avg);
 	}
-	motor.ResetMotor();
-	latch.setPosition(0);
+	
 	return 0;
 }
