@@ -41,7 +41,7 @@ public:
 
 class DoorLatch
 {
-	int position;//0 when closed and 100 when open
+	int position;//0 when closed and 300 when open
 public:
 	DoorLatch();
 	void setPosition(int position);
@@ -78,7 +78,7 @@ int main(int argc, char const *argv[])
 		avg=sendor.ReadData(data);//note that I modified the method in its declaration to return the average value of the data received
 	}
 
-	if(latch.getPosition()!=100)
+	if(latch.getPosition()!=300)
 	{
 		motor.MoveMotor(avg);
 	}
