@@ -81,7 +81,9 @@ int main(int argc, char const *argv[])
 	if(latch.getPosition()!=300)
 	{
 		motor.MoveMotor(avg);
+		latch.setPosition(avg);
 	}
 	motor.ResetMotor();
+	latch.setPosition(0);
 	return 0;
 }
